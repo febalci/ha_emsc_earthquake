@@ -55,53 +55,36 @@ class EMSCEarthquakeOptionsFlowHandler(config_entries.OptionsFlow):
         """Manage the options for the custom integration."""
         if user_input is not None:
             self.hass.config_entries.async_update_entry(
-                self.config_entry, options=user_input
+                self.config_entry, data=user_input, options=self.config_entry.options
             )
-            return self.async_create_entry(title="", data={})
+#            return self.async_create_entry(title="", data={})
+            return self.async_create_entry(
+                title=self.config_entry.title, data=user_input
+            )
 
         schema = vol.Schema(
             {
-                vol.Optional(
-                    "ping_interval",
-                    default=self.config_entry.options.get("ping_interval", 15),
-                ): vol.Coerce(int),
+                vol.Required(
+                    "center_latitude",
+                    default= self.config_entry.data.get("center_latitude"),): vol.Coerce(float),
+                vol.Required(
+                    "center_longitude",
+                    default=self.config_entry.data.get("center_longitude",),
+                ): vol.Coerce(float),
+                vol.Required(
+                    "radius_km",
+                    default=self.config_entry.data.get("radius_km",),
+                ): vol.Coerce(float),
+                vol.Required(
+                    "min_mag",
+                    default=self.config_entry.data.get("min_mag",),
+                ): vol.Coerce(float),
+                vol.Required(
+                    "total_max_mag",
+                    default=self.config_entry.data.get("total_max_mag",),
+                ): vol.Coerce(float),
             }
         )
 
         return self.async_show_form(step_id="init", data_schema=schema)
-
-
-
-
-class EMSCEarthquakeFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for EMSC Earthquake."""
-
-    VERSION = 1
-
-    async def async_step_user(self, user_input=None):
-        """Handle the initial step."""
-        errors = {}
-
-        if user_input is not None:
-            # Save the configuration
-            return self.async_create_entry(
-                title=user_input.get("name", DEFAULT_NAME),
-                data=user_input,
-            )
-
-        # Default form schema
-        schema = vol.Schema(
-            {
-                vol.Optional("name", default=DEFAULT_NAME): str,
-                vol.Required("center_latitude"): vol.Coerce(float),
-                vol.Required("center_longitude"): vol.Coerce(float),
-                vol.Required("radius_km"): vol.Coerce(float),
-                vol.Required("min_mag"): vol.Coerce(float),
-                vol.Required("total_max_mag"): vol.Coerce(float)
-            }
-        )
-
-        return self.async_show_form(
-            step_id="user", data_schema=schema, errors=errors
-        )
 
