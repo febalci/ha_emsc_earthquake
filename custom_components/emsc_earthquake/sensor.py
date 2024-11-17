@@ -145,7 +145,7 @@ class EMSCEarthquakeSensor(SensorEntity):
             lon = info.get("lon")
             mag = info.get("mag")
 
-            if (self.is_within_radius(lat, lon) and mag>self.min_mag) or mag > self.total_max_mag:
+            if (self.is_within_radius(lat, lon) and mag >= self.min_mag) or mag >= self.total_max_mag:
                 # Update state and attributes if the earthquake falls within the radius
                 self._state = info.get("mag")  # Set the earthquake magnitude as state
                 self._attributes = {
