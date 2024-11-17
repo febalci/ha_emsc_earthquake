@@ -35,9 +35,9 @@ You will need to install the crowipmodule manually.
 
 - __name :__ Name of the sensor
 
-- __center_latitude:__ Latitude of your base location
+- __center_latitude:__ Latitude of your base location, default is zone.home latitude
 
-- __center_logitude:__ Longitude of your base location
+- __center_logitude:__ Longitude of your base location, default is zone.home longitude
 
 - __radius_km:__ Distance of all earthquakes to be informed of, within a radius from your base location (in km)
 
