@@ -1,6 +1,7 @@
 from homeassistant import config_entries
 import voluptuous as vol
 from homeassistant.core import callback
+from homeassistant.const import CONF_LATITUDE, CONF_LONGITUDE
 
 from .const import DOMAIN, DEFAULT_NAME  # Define these constants in a `const.py` file
 
@@ -14,6 +15,14 @@ class EMSCEarthquakeFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         """Handle the initial step."""
         errors = {}
 
+        # Get the coordinates of zone.home
+        home_zone = self.hass.states.get("zone.home")
+        if home_zone:
+            home_latitude = home_zone.attributes.get(CONF_LATITUDE)
+            home_longitude = home_zone.attributes.get(CONF_LONGITUDE)
+        else:
+            home_latitude = None
+            home_longitude = None
 
         if user_input is not None:
             # Save the configuration
@@ -26,8 +35,8 @@ class EMSCEarthquakeFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         schema = vol.Schema(
             {
                 vol.Optional("name", default=DEFAULT_NAME): str,
-                vol.Required("center_latitude"): vol.Coerce(float),
-                vol.Required("center_longitude"): vol.Coerce(float),
+                vol.Required("center_latitude", default=home_latitude): vol.Coerce(float),
+                vol.Required("center_longitude", default=home_longitude): vol.Coerce(float),
                 vol.Required("radius_km"): vol.Coerce(float),
                 vol.Required("min_mag"): vol.Coerce(float),
                 vol.Required("total_max_mag"): vol.Coerce(float)
