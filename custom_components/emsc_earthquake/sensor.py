@@ -130,6 +130,7 @@ class EMSCEarthquakeSensor(SensorEntity):
         c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
         distance = R * c
+        _LOGGER.debug("Distance (km): %s", distance)
 
         return distance <= self.radius_km
 
