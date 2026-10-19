@@ -9,9 +9,9 @@ EMSC Provides Earthquake Information from https://seismicportal.eu/realtime.html
 <img src="images/Screenshot 2024-11-17 at 12.50.37.png" width="400" height="400">
 </p>
 
-## Installation
+## Installation (manual)
 
-You will need to install the emsc_earthquake manually.
+You can install the emsc_earthquake manually.
 
 - Create custom_components folder if it does not exist to get following structure `config/custom_components`
 
@@ -20,6 +20,17 @@ You will need to install the emsc_earthquake manually.
 - Copy all files from [custom_components/emsc_earthquake/](custom_components/emsc_earthquake/) into the previously created folder
 
 - Restart Home Assistant
+
+## Installation via HACS (Add a Custom Repository)
+
+1. Open **Home Assistant**.
+2. Navigate to **HACS** in your sidebar.
+3. Click the **three dots `⋮`** in the top right corner and select **Custom repositories**.
+4. Paste the URL of this repository into the **Repository** field: `https://github.com/febalci/ha_emsc_earthquake`
+5. Select **Integration** as the category.
+6. Click **Add** and wait for it to appear in the list.
+7. Now search for **EMSC Earthquake** in HACS and download it.
+8. Restart Home Assistant to finalize the installation.
 
 ## Setup and Configuration
 
