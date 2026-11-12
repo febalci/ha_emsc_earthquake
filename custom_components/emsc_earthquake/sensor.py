@@ -149,9 +149,14 @@ class EMSCEarthquakeSensor(SensorEntity):
             if (self.is_within_radius(lat, lon) and mag >= self.min_mag) or mag >= self.total_max_mag:
                 # Update state and attributes if the earthquake falls within the radius
                 self._state = info.get("mag")  # Set the earthquake magnitude as state
+                event_id = str(info.get("source_id") or "")
                 self._attributes = {
                     "action": action,
                     "unid": info.get("unid"),
+                    "imglink": (
+                        "https://static1.emsc.eu/Images/EVID_V2/"
+                        f"{event_id[:3]}/{event_id[:4]}/{event_id}/seismicity.app.jpg"
+                    ) if event_id else "",
                     "time": info.get("time"),
                     "magnitude": info.get("mag"),
                     "region": info.get("flynn_region"),
